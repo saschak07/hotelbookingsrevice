@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.HotelDto;
+import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
+import com.hotelbooking.exception.NoDetailsFoundException;
 import com.hotelbooking.repository.HotelDetailsRepository;
 import com.hotelbooking.util.ConversionUtil;
 @Service
@@ -47,6 +49,20 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	@Override
 	public Optional<HotelDto> addHotel(HotelDto hotelDto) throws Exception {
 		return hotelDetailDao.addHotel(conversionUtil.convertHotelDtoToEntity(hotelDto));
+	}
+
+	@Override
+	public Optional<HotelDto> getHotelById(String hotelIds) {
+		return hotelDetailDao.getHotelById(hotelIds);
+	}
+
+	@Override
+	public Optional<HotelDto> addRoom(HotelRoomAddRequestDto roomAddRequest) throws Exception{
+		Optional<HotelDto> optioanlHotelDto = hotelDetailDao.getHotelById(roomAddRequest.getHotelIds());
+		if(!optioanlHotelDto.isPresent()) {
+			throw new NoDetailsFoundException("Hotel Does not exist");
+		}
+		return hotelDetailDao.addRoom(roomAddRequest);
 	}
 
 }

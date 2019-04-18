@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hotelbooking.dto.HotelDto;
+import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelEntity;
+import com.hotelbooking.entity.RoomEntity;
 import com.hotelbooking.repository.HotelDetailsRepository;
 import com.hotelbooking.util.ConversionUtil;
 @Service
@@ -43,6 +45,32 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 			throw e;
 		}
 		return optionalHotel;
+	}
+	@Override
+	public Optional<HotelDto> getHotelById(String hotelIds) {
+		Optional<HotelDto> optionalHotel = Optional.empty();
+		try {
+		 optionalHotel = Optional.of(conversionUtil.convertToHotelDtoFromEntity(hotelDetailRepository.findById(hotelIds).get()));
+		}catch(Exception e) {
+			logger.error("Error while retrieving: hotel:"+hotelIds, e);
+			throw e;
+		}
+		return optionalHotel;
+	}
+	@Override
+	public Optional<HotelDto> addRoom(HotelRoomAddRequestDto roomAddRequest) throws Exception{
+		Optional<HotelDto> hotelResponseOptional = Optional.empty();
+		try {
+		Optional<HotelEntity> hotelEntityOptional = hotelDetailRepository.findById(roomAddRequest.getHotelIds());
+		List<RoomEntity> roomListFromDataStore = hotelEntityOptional.get().getRooms();
+		roomListFromDataStore.add(conversionUtil.convertRoomEntityFromRoomAddRequest(roomAddRequest));
+		hotelEntityOptional.get().setRooms(roomListFromDataStore);
+		hotelResponseOptional = Optional.of(conversionUtil.convertToHotelDtoFromEntity(hotelDetailRepository.save(hotelEntityOptional.get())));
+		}catch(Exception e) {
+			logger.error("Error while adding room to hotel:"+roomAddRequest.getHotelIds(), e);
+			throw e;
+		}
+		return hotelResponseOptional;
 	}
 
 }

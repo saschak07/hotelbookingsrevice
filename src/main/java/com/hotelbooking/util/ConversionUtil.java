@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import com.hotelbooking.dto.HotelDto;
+import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
 @Component
@@ -27,6 +28,11 @@ public class ConversionUtil extends ModelMapper{
 		});
 		hotelEntity.setRooms(roomEntityList);
 		 return hotelEntity;
+	}
+
+	public RoomEntity convertRoomEntityFromRoomAddRequest(HotelRoomAddRequestDto roomAddRequest) {
+		roomAddRequest.setRoomIds(UUID.randomUUID().toString());
+		return super.map(roomAddRequest, RoomEntity.class);
 	}
 
 }

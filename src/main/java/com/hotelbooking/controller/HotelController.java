@@ -7,12 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.api.services.calendar.model.Event;
 import com.hotelbooking.dto.HotelDto;
+import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.service.BookingService;
 import com.hotelbooking.service.HotelDetailService;
 
@@ -36,6 +38,15 @@ public class HotelController {
 	@PostMapping("/add-hotel")
 	public ResponseEntity<HotelDto> addHotel(@RequestBody HotelDto hotelDto) throws Exception{
 		Optional<HotelDto> optionalHotel = hotelDetailService.addHotel(hotelDto);
+		return ResponseEntity.status(HttpStatus.OK).body(optionalHotel.get());
+	}
+	@GetMapping("/hotel/{hotelIds}")
+	public ResponseEntity<HotelDto> getHotelById(@PathVariable String hotelIds){
+		return ResponseEntity.status(HttpStatus.OK).body(hotelDetailService.getHotelById(hotelIds).get());
+	}
+	@PostMapping("/add-rooms")
+	public ResponseEntity<HotelDto> addHotelRooms(@RequestBody HotelRoomAddRequestDto roomAddRequest) throws Exception{
+		Optional<HotelDto> optionalHotel = hotelDetailService.addRoom(roomAddRequest);
 		return ResponseEntity.status(HttpStatus.OK).body(optionalHotel.get());
 	}
 
