@@ -10,10 +10,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotelbooking.dto.BookingRequestDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
+import com.hotelbooking.repository.HotelBookingRepository;
 import com.hotelbooking.repository.HotelDetailsRepository;
 import com.hotelbooking.util.ConversionUtil;
 @Service
@@ -21,6 +25,8 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 
 	@Autowired
 	private HotelDetailsRepository hotelDetailRepository;
+	@Autowired
+	private HotelBookingRepository hotelBookingrepository;
 	@Autowired
 	private ConversionUtil conversionUtil;
 	Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -71,6 +77,16 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 			throw e;
 		}
 		return hotelResponseOptional;
+	}
+	@Override
+	public void bookRoom(BookingRequestDto bookingRequest) throws Exception {
+		try {
+			hotelBookingrepository.save(conversionUtil.convertToBookingEntityFromDto(bookingRequest));
+		}catch(Exception e) {
+			logger.error("Error while saving booking details:"+new ObjectMapper().writeValueAsString(bookingRequest),e);
+			throw e;
+		}
+		
 	}
 
 }

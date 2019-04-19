@@ -161,6 +161,7 @@ public class BookingServiceImpl implements BookingService {
         		String calendarId = "primary";
         		event = service.events().insert(calendarId, event).execute();
 	        	logger.info("Event created"+ event.getHtmlLink());
+	        	hotelDetailDao.bookRoom(bookingRequest);
 			 }
 		 catch(Exception e) {
 			 logger.error("error while syncing room booking"

@@ -5,7 +5,7 @@ import com.google.api.client.util.DateTime;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class BookingRequestDto {
-
+	private String bookingIds;
 	private String hotelId;
 	private String hotelName;
 	private String roomNo;
@@ -57,6 +57,12 @@ public class BookingRequestDto {
 	}
 	public void setEndDate(DateTime endDate) {
 		this.endDate = endDate;
+	}
+	public String getBookingIds() {
+		return bookingIds;
+	}
+	public void setBookingIds(String bookingIds) {
+		this.bookingIds = bookingIds;
 	}
 	
 	

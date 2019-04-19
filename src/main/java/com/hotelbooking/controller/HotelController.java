@@ -54,5 +54,6 @@ public class HotelController {
 	public ResponseEntity<Event> bookRoom(@RequestBody BookingRequestDto bookingRequest) throws Exception{
 		return ResponseEntity.status(HttpStatus.OK).body(bookingService.bookRoom(bookingRequest).get());
 	}
+	
 
 }
