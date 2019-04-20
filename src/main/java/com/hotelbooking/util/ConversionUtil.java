@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -19,6 +20,8 @@ import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
 @Component
 public class ConversionUtil extends ModelMapper{
+	 @Value("${timeZone.id}")
+	 private String TIME_ZONE;
 
 	public HotelDto convertToHotelDtoFromEntity(HotelEntity hotel) {
 		return super.map(hotel, HotelDto.class);
@@ -46,10 +49,10 @@ public class ConversionUtil extends ModelMapper{
 		HotelBookingEntity bookingEntity = super.map(bookingRequest, HotelBookingEntity.class);
 		bookingEntity.setStartDate(LocalDateTime.
 					ofInstant(Instant.ofEpochMilli(bookingRequest.getStartDate()
-					.getValue()), ZoneId.of("America/Los_Angeles")));
+					.getValue()), ZoneId.of(TIME_ZONE)));
 		bookingEntity.setEndDate(LocalDateTime.
 				ofInstant(Instant.ofEpochMilli(bookingRequest.getEndDate()
-				.getValue()), ZoneId.of("America/Los_Angeles")));
+				.getValue()), ZoneId.of(TIME_ZONE)));
 		return bookingEntity;
 	}
 

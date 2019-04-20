@@ -3,7 +3,9 @@ package com.hotelbooking.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,6 +41,8 @@ import com.google.api.services.calendar.model.Events;
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.BookingRequestDto;
 import com.hotelbooking.dto.HotelDto;
+import com.hotelbooking.dto.HotelRoomAddRequestDto;
+import com.hotelbooking.entity.HotelBookingEntity;
 import com.hotelbooking.exception.NoDetailsFoundException;
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -56,6 +60,8 @@ public class BookingServiceImpl implements BookingService {
     private String AUTH_AS;
     @Value("${calendar.company.email}")
     private String COMPANY_EMAIL;
+    @Value("${timeZone.id}")
+    private String TIME_ZONE;
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private HotelDetailDao hotelDetailDao;
@@ -117,11 +123,18 @@ public class BookingServiceImpl implements BookingService {
 	public Optional<Event> bookRoom(BookingRequestDto bookingRequest) throws Exception {
 		// Build a new authorized API client service.
 		 Event event = new Event();
+		 if(!validBooking(bookingRequest)) {
+			 throw new RuntimeException("invalid booking Request");
+		 }
+		 if(!roomAvailable(bookingRequest)) {
+			 throw new RuntimeException("Room is already booked");
+		 }
 		 try {
 			 Optional<HotelDto> hotelOptional = hotelDetailDao.getHotelById(bookingRequest.getHotelId());
 			 if(!hotelOptional.isPresent()) {
 				 throw new NoDetailsFoundException("hotel:"+bookingRequest.getHotelId()+"Does not exist");
 			 }
+			 hotelDetailDao.bookRoom(bookingRequest);
 			 final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 			 Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -134,13 +147,13 @@ public class BookingServiceImpl implements BookingService {
         		DateTime startDateTime = bookingRequest.getStartDate();
         		EventDateTime start = new EventDateTime()
         	    .setDateTime(startDateTime)
-        	    .setTimeZone("America/Los_Angeles");
+        	    .setTimeZone(TIME_ZONE);
         		event.setStart(start);
 
         		DateTime endDateTime = bookingRequest.getEndDate();
         		EventDateTime end = new EventDateTime()
         	    .setDateTime(endDateTime)
-        	    .setTimeZone("America/Los_Angeles");
+        	    .setTimeZone(TIME_ZONE);
         		event.setEnd(end);
 
         		EventAttendee[] attendees = new EventAttendee[] {
@@ -161,7 +174,7 @@ public class BookingServiceImpl implements BookingService {
         		String calendarId = "primary";
         		event = service.events().insert(calendarId, event).execute();
 	        	logger.info("Event created"+ event.getHtmlLink());
-	        	hotelDetailDao.bookRoom(bookingRequest);
+	        	
 			 }
 		 catch(Exception e) {
 			 logger.error("error while syncing room booking"
@@ -171,6 +184,33 @@ public class BookingServiceImpl implements BookingService {
 		 }
 
 		return Optional.of(event);
+	}
+
+
+	private boolean roomAvailable(BookingRequestDto bookingRequest) {
+		Optional<List<HotelBookingEntity>> bookedRoomListOptional = 
+				hotelDetailDao.getBookedRoomDetails(bookingRequest.getHotelId(),
+													LocalDateTime.ofInstant(Instant.ofEpochMilli(bookingRequest.getStartDate()
+												   .getValue()), ZoneId.of(TIME_ZONE)), LocalDateTime.
+													ofInstant(Instant.ofEpochMilli(bookingRequest.getEndDate()
+													.getValue()), ZoneId.of(TIME_ZONE)));
+		if(!bookedRoomListOptional.isPresent()) {
+			return true;
+		}
+		Optional<HotelBookingEntity> optionalHotelRoom = bookedRoomListOptional.get().stream()
+								.filter(data -> data.getRoomNo().equals(bookingRequest.getRoomNo())).findFirst();
+		if(!optionalHotelRoom.isPresent()) {
+			return true;
+		}
+		return false;
+	}
+
+
+	private boolean validBooking(BookingRequestDto bookingRequest) {
+		if(bookingRequest.getEndDate().getValue()>bookingRequest.getStartDate().getValue()) {
+			return true;
+		}
+		return false;
 	}
 	
 }

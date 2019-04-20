@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.api.services.calendar.model.Event;
+import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingRequestDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
@@ -53,6 +54,11 @@ public class HotelController {
 	@PostMapping("/book-room")
 	public ResponseEntity<Event> bookRoom(@RequestBody BookingRequestDto bookingRequest) throws Exception{
 		return ResponseEntity.status(HttpStatus.OK).body(bookingService.bookRoom(bookingRequest).get());
+	}
+	@PostMapping("/available-rooms")
+	public ResponseEntity<HotelDto> getAvailaleRooms(@RequestBody AvailabilityRequestDto availabilityRequest) throws Exception{
+		return ResponseEntity.status(HttpStatus.OK).body(hotelDetailService.
+				getAvailableroomDetails(availabilityRequest).get());
 	}
 	
 

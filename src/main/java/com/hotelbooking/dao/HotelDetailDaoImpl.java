@@ -1,5 +1,6 @@
 package com.hotelbooking.dao;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingRequestDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
+import com.hotelbooking.entity.HotelBookingEntity;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
 import com.hotelbooking.repository.HotelBookingRepository;
@@ -87,6 +90,16 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 			throw e;
 		}
 		
+	}
+	@Override
+	public Optional<List<HotelBookingEntity>> getBookedRoomDetails(String hotelId, 
+			LocalDateTime startDate, LocalDateTime endDate) {
+		logger.info("looking for booked rooms for hotelId"+hotelId);
+		 Optional<List<HotelBookingEntity>> bookedRoomList =
+		 hotelBookingrepository.getAllBookedRoom(hotelId,
+				 startDate,endDate);
+		 
+		return bookedRoomList;
 	}
 
 }
