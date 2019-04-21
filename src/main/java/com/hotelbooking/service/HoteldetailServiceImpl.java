@@ -32,15 +32,17 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	
-	 @PostConstruct private void loadData() throws Exception { RoomEntity
-	 roomEntity = new RoomEntity(); roomEntity.setRoomNumber("102");
-	 roomEntity.setRoomType("single");
-	 roomEntity.setAmenities("tv||wifi||minibar"); List<RoomEntity> roomList = new
-	 ArrayList<RoomEntity>(); roomList.add(roomEntity); HotelEntity hotel = new
-	 HotelEntity(); hotel.setHotelName("Hotel Mayura");
-	 hotel.setAddress("101, RoyalMinakshi road, Majestic, Bangalore-560001");
-	 hotel.setContactNo("+919108111757"); hotel.setRooms(roomList);
-	 hotelDetailDao.addHotel(hotel); }
+	/*
+	 * @PostConstruct private void loadData() throws Exception { RoomEntity
+	 * roomEntity = new RoomEntity(); roomEntity.setRoomNumber("102");
+	 * roomEntity.setRoomType("single");
+	 * roomEntity.setAmenities("tv||wifi||minibar"); List<RoomEntity> roomList = new
+	 * ArrayList<RoomEntity>(); roomList.add(roomEntity); HotelEntity hotel = new
+	 * HotelEntity(); hotel.setHotelName("Hotel Mayura");
+	 * hotel.setAddress("101, RoyalMinakshi road, Majestic, Bangalore-560001");
+	 * hotel.setContactNo("+919108111757"); hotel.setRooms(roomList);
+	 * hotelDetailDao.addHotel(hotel); }
+	 */
 	 
 	
 	@Override
