@@ -44,7 +44,9 @@ import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
+import com.hotelbooking.exception.InvalidRequestException;
 import com.hotelbooking.exception.NoDetailsFoundException;
+import com.hotelbooking.exception.NoRoomAvailableException;
 import com.hotelbooking.util.ConversionUtil;
 @Service
 public class BookingServiceImpl implements BookingService {
@@ -129,10 +131,10 @@ public class BookingServiceImpl implements BookingService {
 		 Event event = new Event();
 		 Optional<HotelBookingEntity> optionalBookingEntity =Optional.empty();
 		 if(!validBooking(bookingRequest)) {
-			 throw new RuntimeException("invalid booking Request");
+			 throw new InvalidRequestException("invalid booking Request");
 		 }
 		 if(!roomAvailable(bookingRequest)) {
-			 throw new RuntimeException("Room is already booked");
+			 throw new NoRoomAvailableException("Room is already booked");
 		 }
 		 try {
 			 Optional<HotelDto> hotelOptional = hotelDetailDao.getHotelById(bookingRequest.getHotelId());

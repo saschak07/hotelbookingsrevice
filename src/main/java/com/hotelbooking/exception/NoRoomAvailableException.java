@@ -1,10 +1,10 @@
 package com.hotelbooking.exception;
 
-public class NoDetailsFoundException extends RuntimeException {
+public class NoRoomAvailableException extends RuntimeException {
 
 	private String message ;
 
-	public NoDetailsFoundException(String message) {
+	public NoRoomAvailableException(String message) {
 		super();
 		this.message = message;
 	}

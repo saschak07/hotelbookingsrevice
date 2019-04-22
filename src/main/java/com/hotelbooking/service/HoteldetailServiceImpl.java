@@ -20,6 +20,7 @@ import com.hotelbooking.dto.RoomDto;
 import com.hotelbooking.entity.HotelBookingEntity;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
+import com.hotelbooking.exception.InvalidRequestException;
 import com.hotelbooking.exception.NoDetailsFoundException;
 import com.hotelbooking.repository.HotelDetailsRepository;
 import com.hotelbooking.util.ConversionUtil;
@@ -74,7 +75,7 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	public Optional<HotelDto> getAvailableroomDetails(AvailabilityRequestDto availabilityRequest) throws Exception
 	{
 		if(!validRequest(availabilityRequest)) {
-			throw new RuntimeException("Invalid Request_invalid start and end date");
+			throw new InvalidRequestException("invalid start and end date");
 		}
 		Optional<HotelDto> optionalHotel = Optional.empty();
 		try {
