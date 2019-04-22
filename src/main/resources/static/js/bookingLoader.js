@@ -12,13 +12,15 @@ $(document).ready(function () {
         timeout: 600000,
         success: function (data) {
             
-            var json =' <div class="section_title"><h2>Congrats, your booking has been confirmed</h2></div><br>'+
-            '<div class="section_subtitle"> Guest name:  '+data.guestName+' </div><br>'+
-            '<div class="section_subtitle"> Guest email:  '+data.guestEmail+' </div><br>'+
-            '<div class="section_subtitle"> Date of arrival:  '+data.startDate+' </div><br>'+
-            '<div class="section_subtitle"> Date of departure:  '+data.endDate+' </div><br>'+
-            '<div class="section_subtitle"> <h2> Stay at:  '+data.hotelName+'</h2> </div><br>'+
-            '<div class="section_subtitle"> <h2> Room no.:  '+data.roomNo+ '</h2></div><br>"';
+            var json =' <div class="section_title"><h2>Congrats, your booking has been confirmed</h2></div>'+
+            ' <table >'+
+            '<tr><td text-align = "left"><div class="section_subtitle"> Guest name: </td><td text-align = "right"> '+data.guestName+'</td> </tr></div><br>'+
+            '<tr><td text-align = "left"><div class="section_subtitle"> Guest email: </td><td text-align = "right">  '+data.guestEmail+'</td> </tr> </div><br>'+
+            '<tr><td text-align = "left"><div class="section_subtitle"> Date of arrival: </td><td text-align = "right"> '+data.startDate+' </td> </tr></div><br>'+
+            '<tr><td text-align = "left"><div class="section_subtitle"> Date of departure: </td><td text-align = "right"> '+data.endDate+' </td> </tr></div><br>'+
+            '<tr><td text-align = "left"><div class="section_subtitle">  Stay at: </td><td text-align = "right"> '+data.hotelName+'</td> </tr> </div><br>'+
+            '<tr><td text-align = "left"><div class="section_subtitle">  Room no.: </td><td text-align = "right"> '+data.roomNo+ '</td> </tr></div><br>"'+
+            '</table>';
             $('#booking').html(json);
             console.log("SUCCESS : ", data);
 

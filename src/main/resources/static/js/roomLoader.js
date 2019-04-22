@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('#loader').hide();
     var queryString = decodeURIComponent(window.location.search);
     queryString = queryString.substring(1);
     var queries = queryString.split("=");
@@ -38,6 +39,7 @@ $(document).ready(function () {
     });
 
     $("#search_room").click(function(event){
+        $('#loader').show();
         event.preventDefault();
         var search = {};
         search["hotelId"] = queries[1];
@@ -52,6 +54,7 @@ $(document).ready(function () {
             cache: false,
             timeout: 600000,
             success: function (data) {
+                $('#loader').hide();
                 var json = "";
                 if(data.rooms.length>0){
                  json ="<div class=\"container\">"
@@ -100,6 +103,7 @@ $(document).ready(function () {
 
         },
             error: function (e) {
+                $('#loader').hide();
                 json = "<div class=\"container\">"
                 +"<div class=\"row\">"
                     +"<div class=\"col\">"
@@ -126,8 +130,10 @@ function activate_booking(hotelId,startDate,endDate,hotelname,roomNumber){
             var $message = $('<div><h2>Confirm your booking details!!<h2></div><br>');
             var $inputName = $('<input type="text" placeholder="Guest full name" class="form-control" id="name"><br>');
             var $inputEmail = $('<input type="text" placeholder="Guest email address" class="form-control" id="email"> <br>');
-            var $inputstartDate = $('<input type="date" class="form-control" id="str_date"> <br>');
-            var $inputendDate = $('<input type="date"  class="form-control" id="end_Date"> <br>');
+            var $message1 = $('<div>From:</div><br>');
+            var $inputstartDate = $('<input type="date" placeholder="From : dd/mm/yy" class="form-control" id="str_date"> <br>');
+            var $message2 = $('<div>To:</div><br>');
+            var $inputendDate = $('<input type="date"  placeholder="To : dd/mm/yy" class="form-control" id="end_Date"> <br>');
             var $confirmBooking = $('<button class="btn btn-primary btn-lg btn-block">Confirm</button>');
             var $button3 = $('<button class="btn btn-primary btn-lg btn-block">Close</button>');
             $button3.on('click', {dialogRef: dialogRef}, function(event){
@@ -143,7 +149,9 @@ function activate_booking(hotelId,startDate,endDate,hotelname,roomNumber){
             });
             $message.append($inputName)
             $message.append($inputEmail);
+            $message.append($message1);
             $message.append($inputstartDate);
+            $message.append($message2);
             $message.append($inputendDate);
             $message.append($confirmBooking)
             $message.append($button3)
@@ -165,11 +173,11 @@ function book_room(hotelId,hotelname,roomNumber,name,email,startDate,endDate){
     bookingReq["hotelId"]=hotelId;
     bookingReq["hotelName"]=hotelname;
     bookingReq["roomNo"]=roomNumber;
-    bookingReq["startDate"]=startDate+"T12:00:00";
+    bookingReq["startDate"]=startDate+"T14:00:00";
     bookingReq["endDate"]=endDate+"T12:00:00";
     bookingReq["guestName"]=name;
     bookingReq["guestEmail"]=email;
-
+    $('#loader').show();
     $.ajax({
         type: "POST",
         contentType: "application/json",
@@ -179,6 +187,7 @@ function book_room(hotelId,hotelname,roomNumber,name,email,startDate,endDate){
         cache: false,
         timeout: 600000,
         success: function (data) {
+            $('#loader').hide();
             alert("Success!!!! your booking has been confirmed")
         console.log("SUCCESS : ", data);
         window.location = 'confirmation.html?booking_Id='+data.bookingIds;
