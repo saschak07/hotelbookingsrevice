@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.google.api.services.calendar.model.Event;
 import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.service.BookingService;
@@ -52,7 +53,7 @@ public class HotelController {
 		return ResponseEntity.status(HttpStatus.OK).body(optionalHotel.get());
 	}
 	@PostMapping("/book-room")
-	public ResponseEntity<Event> bookRoom(@RequestBody BookingRequestDto bookingRequest) throws Exception{
+	public ResponseEntity<BookingResponseDto> bookRoom(@RequestBody BookingRequestDto bookingRequest) throws Exception{
 		return ResponseEntity.status(HttpStatus.OK).body(bookingService.bookRoom(bookingRequest).get());
 	}
 	@PostMapping("/available-rooms")
@@ -60,6 +61,12 @@ public class HotelController {
 		return ResponseEntity.status(HttpStatus.OK).body(hotelDetailService.
 				getAvailableroomDetails(availabilityRequest).get());
 	}
+	
+	 @GetMapping("/booking/{bookingId}") 
+	 public ResponseEntity<BookingResponseDto>getBookingDetailsForHotelId(@PathVariable String bookingId){
+		 return ResponseEntity.status(HttpStatus.OK).body(hotelDetailService.getBookingDetails(bookingId).get());
+	 }
+	 
 	
 
 }

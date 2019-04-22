@@ -15,6 +15,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
@@ -82,14 +83,16 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 		return hotelResponseOptional;
 	}
 	@Override
-	public void bookRoom(BookingRequestDto bookingRequest) throws Exception {
+	public HotelBookingEntity bookRoom(BookingRequestDto bookingRequest) throws Exception {
+		HotelBookingEntity bookingEntity = new HotelBookingEntity();
 		try {
-			hotelBookingrepository.save(conversionUtil.convertToBookingEntityFromDto(bookingRequest));
+			bookingEntity = hotelBookingrepository.save(conversionUtil.convertToBookingEntityFromDto(bookingRequest));
 		}catch(Exception e) {
 			logger.error("Error while saving booking details:"+new ObjectMapper().writeValueAsString(bookingRequest),e);
 			throw e;
 		}
 		
+		return bookingEntity;
 	}
 	@Override
 	public Optional<List<HotelBookingEntity>> getBookedRoomDetails(String hotelId, 
@@ -100,6 +103,11 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 				 startDate,endDate);
 		 
 		return bookedRoomList;
+	}
+	@Override
+	public Optional<BookingResponseDto> getBookingDetails(String bookingId) {
+		Optional<HotelBookingEntity> optionalBookingEntity = hotelBookingrepository.findById(bookingId);
+		return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
 	}
 
 }

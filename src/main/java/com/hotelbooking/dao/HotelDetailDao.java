@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
@@ -23,9 +24,11 @@ public interface HotelDetailDao {
 
 	Optional<HotelDto> addRoom(HotelRoomAddRequestDto roomAddRequest) throws Exception;
 
-	void bookRoom(BookingRequestDto bookingRequest) throws Exception;
+	HotelBookingEntity bookRoom(BookingRequestDto bookingRequest) throws Exception;
 
 	Optional<List<HotelBookingEntity>> getBookedRoomDetails(String hotelId, 
 			LocalDateTime startDate, LocalDateTime endDate);
+
+	Optional<BookingResponseDto> getBookingDetails(String bookingId);
 
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.AvailabilityRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.dto.RoomDto;
@@ -102,6 +103,12 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public Optional<BookingResponseDto> getBookingDetails(String bookingId) {
+		
+		return hotelDetailDao.getBookingDetails(bookingId);
 	}
 	
 	}

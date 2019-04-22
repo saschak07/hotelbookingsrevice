@@ -100,20 +100,16 @@ $(document).ready(function () {
 
         },
             error: function (e) {
-    
-                var json = "<div class=\"col-lg-4 room_col magic_up\">"+
-                "<div class=\"room\">"+
-                        "<div class=\"room_text\">"
-                            +"<p>Oops data could not be loaded!!! support team will work on this!</p>"
+                json = "<div class=\"container\">"
+                +"<div class=\"row\">"
+                    +"<div class=\"col\">"
+                        +"<div class=\"section_title_container text-center\">"
+                            +"<div class=\"section_title\"><h2>"+e.responseJSON.message+"</h2></div>"
                         +"</div>"
                     +"</div>"
-                +"</div>"
-            +"</div>";
-                $('#feedback').html(json);
-    
-                console.log("ERROR : ", e);
-               
-    
+                +"</div>";
+                $('#room_list').html(json);
+                console.log("Error : ", e); 
             }
         });
     });
@@ -185,23 +181,12 @@ function book_room(hotelId,hotelname,roomNumber,name,email,startDate,endDate){
         success: function (data) {
             alert("Success!!!! your booking has been confirmed")
         console.log("SUCCESS : ", data);
+        window.location = 'confirmation.html?booking_Id='+data.bookingIds;
 
     },
         error: function (e) {
-
-            var json = "<div class=\"col-lg-4 room_col magic_up\">"+
-            "<div class=\"room\">"+
-                    "<div class=\"room_text\">"
-                        +"<p>Oops data could not be loaded!!! support team will work on this!</p>"
-                    +"</div>"
-                +"</div>"
-            +"</div>"
-        +"</div>";
-            $('#feedback').html(json);
-
+            alert("Error while booking room!....Support team is looking into the issue")
             console.log("ERROR : ", e);
-           
-
         }
     });
 }

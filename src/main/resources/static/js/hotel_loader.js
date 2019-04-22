@@ -37,7 +37,7 @@ $(document).ready(function () {
                 +"</div>"
             +"</div>"
         +"</div>";
-            $('#feedback').html(json);
+            $('#hotel_list').html(json);
 
             console.log("ERROR : ", e);
            

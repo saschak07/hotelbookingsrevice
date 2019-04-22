@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.hotelbooking.dto.BookingRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
@@ -54,6 +56,11 @@ public class ConversionUtil extends ModelMapper{
 				ofInstant(Instant.ofEpochMilli(bookingRequest.getEndDate()
 				.getValue()), ZoneId.of(TIME_ZONE)));
 		return bookingEntity;
+	}
+
+	public BookingResponseDto convertBookingEntityToResponse(Optional<HotelBookingEntity> optionalBookingEntity) {
+		
+		return super.map(optionalBookingEntity.get(), BookingResponseDto.class);
 	}
 
 }

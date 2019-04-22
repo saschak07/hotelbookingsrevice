@@ -40,10 +40,12 @@ import com.google.api.services.calendar.model.EventReminder;
 import com.google.api.services.calendar.model.Events;
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.BookingRequestDto;
+import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
 import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
 import com.hotelbooking.exception.NoDetailsFoundException;
+import com.hotelbooking.util.ConversionUtil;
 @Service
 public class BookingServiceImpl implements BookingService {
 	@Value("${calendar.application.name}")
@@ -65,6 +67,8 @@ public class BookingServiceImpl implements BookingService {
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private HotelDetailDao hotelDetailDao;
+    @Autowired
+    private ConversionUtil conversionUtil;
 
     private  Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
@@ -120,9 +124,10 @@ public class BookingServiceImpl implements BookingService {
 
 
 	@Override
-	public Optional<Event> bookRoom(BookingRequestDto bookingRequest) throws Exception {
+	public Optional<BookingResponseDto> bookRoom(BookingRequestDto bookingRequest) throws Exception {
 		// Build a new authorized API client service.
 		 Event event = new Event();
+		 Optional<HotelBookingEntity> optionalBookingEntity =Optional.empty();
 		 if(!validBooking(bookingRequest)) {
 			 throw new RuntimeException("invalid booking Request");
 		 }
@@ -134,7 +139,8 @@ public class BookingServiceImpl implements BookingService {
 			 if(!hotelOptional.isPresent()) {
 				 throw new NoDetailsFoundException("hotel:"+bookingRequest.getHotelId()+"Does not exist");
 			 }
-			 hotelDetailDao.bookRoom(bookingRequest);
+			optionalBookingEntity = Optional.of(hotelDetailDao.bookRoom(bookingRequest));
+			
 			 final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
 			 Calendar service = new Calendar.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -183,7 +189,7 @@ public class BookingServiceImpl implements BookingService {
 			 throw e;
 		 }
 
-		return Optional.of(event);
+		return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
 	}
 
 
