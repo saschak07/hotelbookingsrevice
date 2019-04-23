@@ -63,7 +63,7 @@ public class HotelController {
 	}
 	
 	 @GetMapping("/booking/{bookingId}") 
-	 public ResponseEntity<BookingResponseDto>getBookingDetailsForHotelId(@PathVariable String bookingId){
+	 public ResponseEntity<BookingResponseDto>getBookingDetailsForHotelId(@PathVariable String bookingId) throws Exception{
 		 return ResponseEntity.status(HttpStatus.OK).body(hotelDetailService.getBookingDetails(bookingId).get());
 	 }
 	 

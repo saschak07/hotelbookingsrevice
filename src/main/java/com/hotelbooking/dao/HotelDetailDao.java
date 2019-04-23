@@ -29,6 +29,6 @@ public interface HotelDetailDao {
 	Optional<List<HotelBookingEntity>> getBookedRoomDetails(String hotelId, 
 			LocalDateTime startDate, LocalDateTime endDate);
 
-	Optional<BookingResponseDto> getBookingDetails(String bookingId);
+	Optional<BookingResponseDto> getBookingDetails(String bookingId) throws Exception;
 
 }

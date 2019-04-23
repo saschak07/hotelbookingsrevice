@@ -20,6 +20,6 @@ public interface HotelDetailService {
 
 	Optional<HotelDto> getAvailableroomDetails(AvailabilityRequestDto availabilityRequest) throws Exception;
 
-	Optional<BookingResponseDto> getBookingDetails(String bookingId);
+	Optional<BookingResponseDto> getBookingDetails(String bookingId) throws Exception;
 
 }

@@ -1,5 +1,7 @@
 package com.hotelbooking.exceptionhandler;
 
+import java.net.ConnectException;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -52,7 +54,7 @@ public class BookingServiceExceptionHandler extends ResponseEntityExceptionHandl
 		return handleExceptionInternal(ex, error, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 	@ExceptionHandler(value = {Exception.class})
-	protected ResponseEntity<Object> handleGenericException(RuntimeException ex, WebRequest request){
+	protected ResponseEntity<Object> handleGenericException(Exception ex, WebRequest request){
 		Error error = new Error();
 		error.setCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
 		error.setDescription(ex.getMessage());

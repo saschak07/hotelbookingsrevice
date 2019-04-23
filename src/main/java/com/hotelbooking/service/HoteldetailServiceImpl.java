@@ -45,6 +45,7 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	 * hotel.setContactNo("+919108111757"); hotel.setRooms(roomList);
 	 * hotelDetailDao.addHotel(hotel); }
 	 */
+	
 	 
 	
 	@Override
@@ -107,7 +108,7 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	}
 
 	@Override
-	public Optional<BookingResponseDto> getBookingDetails(String bookingId) {
+	public Optional<BookingResponseDto> getBookingDetails(String bookingId) throws Exception {
 		
 		return hotelDetailDao.getBookingDetails(bookingId);
 	}

@@ -21,6 +21,7 @@ import com.hotelbooking.dto.HotelRoomAddRequestDto;
 import com.hotelbooking.entity.HotelBookingEntity;
 import com.hotelbooking.entity.HotelEntity;
 import com.hotelbooking.entity.RoomEntity;
+import com.hotelbooking.exception.NoDetailsFoundException;
 import com.hotelbooking.repository.HotelBookingRepository;
 import com.hotelbooking.repository.HotelDetailsRepository;
 import com.hotelbooking.util.ConversionUtil;
@@ -105,8 +106,11 @@ public class HotelDetailDaoImpl implements HotelDetailDao{
 		return bookedRoomList;
 	}
 	@Override
-	public Optional<BookingResponseDto> getBookingDetails(String bookingId) {
+	public Optional<BookingResponseDto> getBookingDetails(String bookingId) throws Exception{
 		Optional<HotelBookingEntity> optionalBookingEntity = hotelBookingrepository.findById(bookingId);
+		if(!optionalBookingEntity.isPresent()) {
+			throw new NoDetailsFoundException("No booking info found");
+		}
 		return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
 	}
 
