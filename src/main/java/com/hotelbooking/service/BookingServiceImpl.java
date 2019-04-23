@@ -128,6 +128,7 @@ public class BookingServiceImpl implements BookingService {
 	@Override
 	public Optional<BookingResponseDto> bookRoom(BookingRequestDto bookingRequest) throws Exception {
 		// Build a new authorized API client service.
+		logger.info("Received booking request:"+new ObjectMapper().writeValueAsString(bookingRequest));
 		 Event event = new Event();
 		 Optional<HotelBookingEntity> optionalBookingEntity =Optional.empty();
 		 if(!validBooking(bookingRequest)) {

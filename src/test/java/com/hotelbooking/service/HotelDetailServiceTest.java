@@ -20,6 +20,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.api.client.util.DateTime;
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.HotelDto;
@@ -37,7 +38,7 @@ public class HotelDetailServiceTest {
 	@Mock
 	private HotelDetailDao hotelDetailDao;
 	@Spy
-	private ConversionUtil conversionUtil;
+	private ConversionUtil conversionUtil = new ConversionUtil();
 	@InjectMocks
 	private HotelDetailService hotelDetailService = new HoteldetailServiceImpl();
 	private ObjectMapper mapper = new ObjectMapper();
@@ -65,11 +66,7 @@ public class HotelDetailServiceTest {
 	}
 	@Test
 	public void test_getavailableRoomDetails_happypath() throws Exception {
-		AvailabilityRequestDto requestDto = new AvailabilityRequestDto();
-		requestDto.setHotelId("xxxx");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		requestDto.setStartDate(LocalDateTime.parse("2019-04-27 11:30:40",formatter));
-		requestDto.setEndDate(LocalDateTime.parse("2019-04-28 11:30:40",formatter));
+		AvailabilityRequestDto requestDto = mapper.readValue(this.getClass().getResource("/availableRoom.json"), AvailabilityRequestDto.class);
 		HotelDto hotelDto = mapper.readValue(this.getClass().getResource("/Hotel_multipleRoom.json"), HotelDto.class);
 		HotelBookingEntity booking = new HotelBookingEntity();
 		booking.setRoomNo("101");
@@ -77,7 +74,8 @@ public class HotelDetailServiceTest {
 		bookingList.add(booking);
 		Mockito.when(hotelDetailDao.getHotelById(requestDto.getHotelId())).thenReturn(Optional.of(hotelDto));
 		Mockito.when(hotelDetailDao.getBookedRoomDetails(requestDto.getHotelId(), 
-				requestDto.getStartDate(), requestDto.getEndDate())).thenReturn(Optional.of(bookingList));
+				conversionUtil.convertToLocalDateTime(requestDto.getStartDate()),
+				conversionUtil.convertToLocalDateTime(requestDto.getEndDate()))).thenReturn(Optional.of(bookingList));
 		hotelDetailService.getAvailableroomDetails(requestDto);
 		
 		Mockito.verify(hotelDetailDao).getHotelById(Mockito.anyString());
@@ -88,8 +86,8 @@ public class HotelDetailServiceTest {
 		AvailabilityRequestDto requestDto = new AvailabilityRequestDto();
 		requestDto.setHotelId("xxxx");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		requestDto.setStartDate(LocalDateTime.parse("2019-04-27 11:30:40",formatter));
-		requestDto.setEndDate(LocalDateTime.parse("2019-04-26 11:30:40",formatter));
+		requestDto.setStartDate(DateTime.parseRfc3339("2019-04-28T12:00:00"));
+		requestDto.setEndDate(DateTime.parseRfc3339("2019-04-27T12:00:00"));
 		
 		hotelDetailService.getAvailableroomDetails(requestDto);
 		
@@ -98,11 +96,8 @@ public class HotelDetailServiceTest {
 	}
 	@Test(expected = NoDetailsFoundException.class)
 	public void test_getavailableRoomDetails_NodetailsFound() throws Exception {
-		AvailabilityRequestDto requestDto = new AvailabilityRequestDto();
-		requestDto.setHotelId("xxxx");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		requestDto.setStartDate(LocalDateTime.parse("2019-04-27 11:30:40",formatter));
-		requestDto.setEndDate(LocalDateTime.parse("2019-04-28 11:30:40",formatter));
+		AvailabilityRequestDto requestDto = mapper.readValue(this.getClass().getResource("/availableRoom.json"), AvailabilityRequestDto.class);
+		
 		Mockito.when(hotelDetailDao.getHotelById(requestDto.getHotelId())).thenReturn(Optional.empty());
 		
 		hotelDetailService.getAvailableroomDetails(requestDto);

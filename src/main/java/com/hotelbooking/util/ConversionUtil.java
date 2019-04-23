@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.google.api.client.util.DateTime;
 import com.hotelbooking.dto.BookingRequestDto;
 import com.hotelbooking.dto.BookingResponseDto;
 import com.hotelbooking.dto.HotelDto;
@@ -23,7 +24,7 @@ import com.hotelbooking.entity.RoomEntity;
 @Component
 public class ConversionUtil extends ModelMapper{
 	 @Value("${timeZone.id}")
-	 private String TIME_ZONE;
+	 private String TIME_ZONE="Asia/Bangkok";
 
 	public HotelDto convertToHotelDtoFromEntity(HotelEntity hotel) {
 		return super.map(hotel, HotelDto.class);
@@ -61,6 +62,12 @@ public class ConversionUtil extends ModelMapper{
 	public BookingResponseDto convertBookingEntityToResponse(Optional<HotelBookingEntity> optionalBookingEntity) {
 		
 		return super.map(optionalBookingEntity.get(), BookingResponseDto.class);
+	}
+	
+	public LocalDateTime convertToLocalDateTime(DateTime dateTime) {
+		return LocalDateTime.
+				ofInstant(Instant.ofEpochMilli(dateTime
+				.getValue()), ZoneId.of(TIME_ZONE));
 	}
 
 }

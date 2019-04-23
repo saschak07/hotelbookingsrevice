@@ -8,24 +8,24 @@ import com.google.api.client.util.DateTime;
 public class AvailabilityRequestDto {
 	
  private String hotelId;
- private LocalDateTime startDate;
- private LocalDateTime endDate;
+ private DateTime startDate;
+ private DateTime endDate;
 public String getHotelId() {
 	return hotelId;
 }
 public void setHotelId(String hotelId) {
 	this.hotelId = hotelId;
 }
-public LocalDateTime getStartDate() {
+public DateTime getStartDate() {
 	return startDate;
 }
-public void setStartDate(LocalDateTime startDate) {
+public void setStartDate(DateTime startDate) {
 	this.startDate = startDate;
 }
-public LocalDateTime getEndDate() {
+public DateTime getEndDate() {
 	return endDate;
 }
-public void setEndDate(LocalDateTime endDate) {
+public void setEndDate(DateTime endDate) {
 	this.endDate = endDate;
 }
 

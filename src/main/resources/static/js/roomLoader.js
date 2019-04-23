@@ -114,7 +114,7 @@ $(document).ready(function () {
                 +"<div class=\"row\">"
                     +"<div class=\"col\">"
                         +"<div class=\"section_title_container text-center\">"
-                            +"<div class=\"section_title\"><h2>"+e.responseJSON.message+"</h2></div>"
+                            +"<div class=\"section_title\"><h2>"+e.responseJSON.description+"</h2></div>"
                         +"</div>"
                     +"</div>"
                 +"</div>";

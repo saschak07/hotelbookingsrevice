@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hotelbooking.dao.HotelDetailDao;
 import com.hotelbooking.dto.AvailabilityRequestDto;
 import com.hotelbooking.dto.BookingResponseDto;
@@ -84,8 +85,10 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 			if(!optionalHotel.isPresent()) {
 				throw new NoDetailsFoundException("details not found for hotelId:"+availabilityRequest.getHotelId());
 			}
+			logger.info("checking availability for"+new ObjectMapper().writeValueAsString(availabilityRequest));
 			Optional<List<HotelBookingEntity>> bookedRoomListOptional = hotelDetailDao.getBookedRoomDetails(availabilityRequest.getHotelId(),
-					availabilityRequest.getStartDate(),availabilityRequest.getEndDate());
+					conversionUtil.convertToLocalDateTime(availabilityRequest.getStartDate()),
+					conversionUtil.convertToLocalDateTime(availabilityRequest.getEndDate()));
 			if(bookedRoomListOptional.isPresent()) {
 				for(HotelBookingEntity booking:bookedRoomListOptional.get()) {
 					Optional<RoomDto> optionlRoom = optionalHotel.get().getRooms().stream().
@@ -101,7 +104,8 @@ public class HoteldetailServiceImpl implements HotelDetailService{
 	}
 
 	private boolean validRequest(AvailabilityRequestDto availabilityRequest) {
-		if(availabilityRequest.getEndDate().isAfter(availabilityRequest.getStartDate())) {
+		if(conversionUtil.convertToLocalDateTime(availabilityRequest.getEndDate())
+				.isAfter(conversionUtil.convertToLocalDateTime(availabilityRequest.getStartDate()))) {
 			return true;
 		}
 		return false;
