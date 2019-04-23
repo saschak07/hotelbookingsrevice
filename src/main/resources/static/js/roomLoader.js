@@ -43,7 +43,7 @@ $(document).ready(function () {
         event.preventDefault();
         var search = {};
         search["hotelId"] = queries[1];
-        search["startDate"] = $("#startDate").val() + "T12:00:00";
+        search["startDate"] = $("#startDate").val() + "T14:00:00";
         search["endDate"] = $("#endDate").val() + "T12:00:00";
         $.ajax({
             type: "POST",
@@ -68,9 +68,13 @@ $(document).ready(function () {
 				+"</div>"
 				+"<div class=\"row room_row\" >"
                  $.each(data.rooms, function(index, room){
+                            var image = "images/room_6.jpg";
+                            if(room.roomImage!=null){
+                                image = room.roomImage; 
+                            }
                             json =json + "<div class=\"col-lg-4 room_col magic_up\">"+
                             "<div class=\"room\">"+
-                            "<div class=\"room_image\"><img src=\""+room.roomImage+"\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
+                            "<div class=\"room_image\"><img src=\""+image+"\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
                             +"<div class=\"room_content text-center\">"
                             +"<div class=\"room_title\">"+data.hotelName+"</div>"
                             +"<div class=\"room_title\"> Room no.: "+room.roomNumber+"</div>"
