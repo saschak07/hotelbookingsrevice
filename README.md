@@ -1,4 +1,4 @@
-# hotelbookingsrevice
+# hotelbooking service
 
 <b>Hotel Booking Service Application</b>
 
