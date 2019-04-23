@@ -10,6 +10,7 @@ public class HotelDto {
 	private String hotelName;
 	private String address;
 	private String contactNo;
+	private String hotelImage;
 	private List<RoomDto> rooms;
 	public String getHotelIds() {
 		return hotelIds;
@@ -40,6 +41,12 @@ public class HotelDto {
 	}
 	public void setRooms(List<RoomDto> rooms) {
 		this.rooms = rooms;
+	}
+	public String getHotelImage() {
+		return hotelImage;
+	}
+	public void setHotelImage(String hotelImage) {
+		this.hotelImage = hotelImage;
 	}
 	
 	

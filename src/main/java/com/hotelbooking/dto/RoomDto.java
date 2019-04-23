@@ -9,6 +9,14 @@ public class RoomDto {
 	private String roomNumber;
 	private String roomType ;
 	private String amenities;
+	private String roomImage;
+	
+	public String getRoomImage() {
+		return roomImage;
+	}
+	public void setRoomImage(String roomImage) {
+		this.roomImage = roomImage;
+	}
 	public String getRoomIds() {
 		return roomIds;
 	}

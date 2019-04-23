@@ -70,7 +70,7 @@ $(document).ready(function () {
                  $.each(data.rooms, function(index, room){
                             json =json + "<div class=\"col-lg-4 room_col magic_up\">"+
                             "<div class=\"room\">"+
-                            "<div class=\"room_image\"><img src=\"images/room_1.jpg\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
+                            "<div class=\"room_image\"><img src=\""+room.roomImage+"\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
                             +"<div class=\"room_content text-center\">"
                             +"<div class=\"room_title\">"+data.hotelName+"</div>"
                             +"<div class=\"room_title\"> Room no.: "+room.roomNumber+"</div>"
@@ -85,7 +85,8 @@ $(document).ready(function () {
                             +"</div>"
                             +"</div>"
                             +"</div>"
-                            +"</div>"});
+                            
+                            });
                  }
                  else {
                      json = "<div class=\"container\">"
@@ -97,6 +98,7 @@ $(document).ready(function () {
                          +"</div>"
                      +"</div>";
                  }
+                 json=json+'</div></div>'
                     $('#room_list').html(json);
 
             console.log("SUCCESS : ", data);

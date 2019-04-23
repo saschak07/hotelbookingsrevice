@@ -20,6 +20,7 @@ public class HotelEntity {
 	private String hotelName;
 	private String address;
 	private String contactNo;
+	private String hotelImage;
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "hotel_ref_id" , nullable = true)
 	private List<RoomEntity> rooms;
@@ -52,6 +53,12 @@ public class HotelEntity {
 	}
 	public void setRooms(List<RoomEntity> rooms) {
 		this.rooms = rooms;
+	}
+	public String getHotelImage() {
+		return hotelImage;
+	}
+	public void setHotelImage(String hotelImage) {
+		this.hotelImage = hotelImage;
 	}
 	
 	

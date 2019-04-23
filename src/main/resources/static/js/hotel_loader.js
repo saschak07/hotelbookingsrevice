@@ -12,7 +12,7 @@ $(document).ready(function () {
             $.each(data, function(index, hotel){
              json =json + "<div class=\"col-lg-4 room_col magic_up\">"+
             "<div class=\"room\">"+
-                "<div class=\"room_image\"><img src=\"images/room_1.jpg\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
+                "<div class=\"room_image\"><img src=\""+hotel.hotelImage+"\" alt=\"https://unsplash.com/@jonathan_percy\"></div>"
                 +"<div class=\"room_content text-center\">"
                     +"<div class=\"room_title\">"+hotel.hotelName+"</div>"
                     +"<div class=\"room_text\"><p> Address:"
