@@ -1,0 +1,15 @@
+
+{
+"hotelIds": "cb5214f6-9a56-471e-859f-fd421aab3e1c",
+"hotelName": "Hotel Mayura",
+"address": "101, RoyalMinakshi road, Majestic, Bangalore-560001",
+"contactNo": "+919108111757",
+"rooms":[
+{
+"roomIds": "66c86179-9ee0-4249-9afd-710b192e8815",
+"roomNumber": "102",
+"roomType": "single",
+"amenities": "tv||wifi||minibar"
+}
+]
+}

@@ -1,0 +1,20 @@
+{
+"hotelIds": "f0555777-dc79-40cc-8e59-074c3e5d9656",
+"hotelName": "Hotel Thanku",
+"address": "101, RoyalMinakshi road, Majestic, Bangalore-560001",
+"contactNo": "+919108111757",
+"rooms":[
+{
+"roomIds": "cb76cb84-d10c-4738-9a4c-7e511a4dd729",
+"roomNumber": "101",
+"roomType": "single",
+"amenities": null
+},
+{
+"roomIds": "94a4bdc0-7bec-4247-b36a-b2d1ed505ac6",
+"roomNumber": "104",
+"roomType": "single",
+"amenities": "tv||wifi||minibar"
+}
+]
+}
