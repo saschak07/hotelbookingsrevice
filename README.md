@@ -38,6 +38,7 @@ admin page to view calendar
     
 <b>Note:</b> application has been deployed at heroku : https://hotelluxury.herokuapp.com
 admin page with calendar: https://hotelluxury.herokuapp.com/admin.html
+**from heroku to calendar event creation is not working currently due to oauth issue. still work in progress.
 
 <b>Architecture</b>
 
