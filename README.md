@@ -35,6 +35,7 @@ admin page to view calendar
 
     • Target node for deployment needs oauth authorization enabled for google calendar api event write scope.
     • Java 8 runtime environment is needed to start the application.
+    >>>> credential Json for calendar api should be placed at the path : src/main/resources/
     
 <b>Note:</b> application has been deployed at heroku : https://hotelluxury.herokuapp.com
 admin page with calendar: https://hotelluxury.herokuapp.com/admin.html
