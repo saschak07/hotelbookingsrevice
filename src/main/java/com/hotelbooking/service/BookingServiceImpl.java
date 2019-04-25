@@ -86,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType(ACCESS_TYPE)
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("https://hotelluxury.herokuapp.com/auth/google").build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("https://hotelluxury.herokuapp.com").build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize(AUTH_AS);
     }
 
