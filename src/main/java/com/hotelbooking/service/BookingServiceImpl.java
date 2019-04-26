@@ -192,7 +192,7 @@ public class BookingServiceImpl implements BookingService {
 			 logger.error("error while syncing room booking"
 			 + " request with google calendar for booking request:"
 			 +new ObjectMapper().writeValueAsString(bookingRequest), e);
-			 throw e;
+			 return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
 		 }
 
 		return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
