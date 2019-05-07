@@ -7,7 +7,7 @@ node {
         checkout scm
     }
     stage ('Compile Stage') {            
-                withMaven(maven : 'maven_3_5_0') {
+                withMaven(maven : 'M3') {
                     sh 'mvn clean install'
                 }
 		}
