@@ -18,12 +18,7 @@ node {
         app = docker.build("saschak07/hotelapp01")
     }
 
-    stage('Test image') {
-        
-        app.inside {
-            echo "Tests passed"
-        }
-    }
+    
 
     stage('Push image') {
         /* 
