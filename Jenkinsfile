@@ -15,7 +15,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("saschak07/hotelapp01")
+        app = docker.build("saschak07/hotelapp01:k8")
     }
 
     
