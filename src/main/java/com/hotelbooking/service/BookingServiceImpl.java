@@ -3,6 +3,7 @@ package com.hotelbooking.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -66,6 +67,8 @@ public class BookingServiceImpl implements BookingService {
     private String COMPANY_EMAIL;
     @Value("${timeZone.id}")
     private String TIME_ZONE;
+    @Value("${calendar.creds}")
+    private String creds;
     Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private HotelDetailDao hotelDetailDao;
@@ -74,8 +77,8 @@ public class BookingServiceImpl implements BookingService {
 
     private  Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         // Load client secrets.
-        InputStream in = this.getClass().getResourceAsStream(CREDENTIALS_FILE_PATH);
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+        //InputStream in = this.getClass().getResourceAsStream(CREDENTIALS_FILE_PATH);
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new StringReader(creds));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
@@ -83,7 +86,7 @@ public class BookingServiceImpl implements BookingService {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType(ACCESS_TYPE)
                 .build();
-        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+        LocalServerReceiver receiver = new LocalServerReceiver.Builder().setHost("https://hotelluxury.herokuapp.com").build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize(AUTH_AS);
     }
 
@@ -189,7 +192,7 @@ public class BookingServiceImpl implements BookingService {
 			 logger.error("error while syncing room booking"
 			 + " request with google calendar for booking request:"
 			 +new ObjectMapper().writeValueAsString(bookingRequest), e);
-			 throw e;
+			 return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
 		 }
 
 		return Optional.of(conversionUtil.convertBookingEntityToResponse(optionalBookingEntity));
