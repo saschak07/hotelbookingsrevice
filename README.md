@@ -65,14 +65,6 @@ hotels have one to many relation with rooms. Hibernate has been used to maintain
 
 
 
-
-<b>Future Architecture breaking monolithic model</b>
-
-![alt text](https://github.com/saschak07/sortingtest/blob/master/Untitled%20Diagram.png)
-
-
-
-
 <b>Future Architecture breaking monolithic model</b>
 
 ![alt text](https://github.com/saschak07/sortingtest/blob/master/Untitled%20Diagram.png)
