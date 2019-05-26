@@ -15,7 +15,7 @@ node {
     stage('Build image') {
         /* This builds the actual image */
 
-        app = docker.build("saschak07/hotelapp01")
+        app = docker.build("saschak07/hotelapp01k8")
     }
 
     
@@ -32,8 +32,8 @@ node {
     }
     
     stage('deploy') {
-   		sh 'docker pull saschak07/hotelapp01'
+   		sh 'docker pull saschak07/hotelapp01k8'
     	sh 'docker rm -f hotel || true'
-    	sh 'docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01'
+    	sh 'docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01k8'
     }
 }
