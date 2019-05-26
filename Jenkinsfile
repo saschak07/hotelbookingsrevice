@@ -31,8 +31,8 @@ node {
     }
     
     stage('deploy') {
-   		sh 'docker pull saschak07/hotelapp01:${env.BUILD_NUMBER}'
+   		sh "docker pull saschak07/hotelapp01:${env.BUILD_NUMBER}"
     	sh 'docker rm -f hotel || true'
-    	sh 'docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01:${env.BUILD_NUMBER}'
+    	sh "docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01:${env.BUILD_NUMBER}"
     }
 }
