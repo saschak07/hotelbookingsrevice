@@ -26,14 +26,13 @@ node {
 		*/
         docker.withRegistry('https://registry.hub.docker.com', 'docker_hub') {
             app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
             } 
                 echo "Trying to Push Docker Build to DockerHub"
     }
     
     stage('deploy') {
-   		sh 'docker pull saschak07/hotelapp01'
+   		sh 'docker pull saschak07/hotelapp01:${env.BUILD_NUMBER}'
     	sh 'docker rm -f hotel || true'
-    	sh 'docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01'
+    	sh 'docker run --name hotel -p 9000:9000 --link some-postgres:postgres -d saschak07/hotelapp01:${env.BUILD_NUMBER}'
     }
 }
