@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent 
     environment {
         GOOGLE_CREDENTIALS = credentials('GCP_CREDS')
         repository = 'gcr.io/quickstart-1556004401507/hotelluxury'
