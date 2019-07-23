@@ -1,13 +1,10 @@
 pipeline {
-    
-    stages {
-    	stage('Setting up env creds') {
-	        agent none 
-    			environment {
-       			 GOOGLE_CREDENTIALS = credentials('GCP_CREDS')
-        		 repository = 'gcr.io/quickstart-1556004401507/hotelluxury'
-   			 }
-	    }
+	 agent any
+	 environment {
+       	 GOOGLE_CREDENTIALS = credentials('GCP_CREDS')
+         repository = 'gcr.io/quickstart-1556004401507/hotelluxury'
+   			}
+	    stages {
         stage('Build and Test Application') {
         	agent {
         	    docker {
