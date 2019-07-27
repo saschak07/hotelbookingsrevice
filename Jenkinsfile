@@ -8,7 +8,6 @@ pipeline {
         stage('Build and Test Application') {
         	agent {
         	    docker {
-    	            label 'docker'
     	            image 'openjdk:8-jdk-alpine'
     	        }
         	}
