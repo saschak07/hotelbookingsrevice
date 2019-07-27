@@ -18,9 +18,7 @@ pipeline {
 	      }
 	      
 	    stage('Docker build and Push Image') {
-	    agent {
-	        label 'docker'
-	    }
+	    agent any
 	    steps {
     	    script {
     	        COMMIT_ID = sh(returnStdout:true, script: 'git rev-parse HEAD')
